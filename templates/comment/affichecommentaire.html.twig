@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+<h1>Liste des commentaire</h1>
+<table class="table">
+    <tr>
+        <th> id </th>
+        <th> commentaire</th>
+
+        <th>update</th>
+        <td>delete</td>
+
+    </tr>
+    <tr {% for c in Comment %} >
+        <td> {{ c.id }} </td>
+        <td> {{ c.commentaire }}</td>
+        <td><a href="{{ path('b',{'id':c.id}) }}">delete</a> <td/>
+        <td><a href="{{ path('updatee',{'id':c.id}) }}">update</a> <td/>
+    <tr {% endfor %} >
+
+</table>
+{% endblock %}

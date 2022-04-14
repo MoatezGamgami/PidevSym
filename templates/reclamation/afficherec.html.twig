@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+<h1> Les reclamations</h1>
+<form method="post" action="{{ path('recherche') }}">
+    <label> Recherche</label>
+    <input type="text" name="statuss"><input type="submit" value="Recherche">
+</form>
+<table class="table">
+    <tr>
+        <th> id </th>
+        <th> description</th>
+        <th> reponse </th>
+        <th> status </th>
+        <th> Region </th>
+        <th>update</th>
+        <td>delete</td>
+        <td>Repondre</td>
+
+    </tr>
+    <tr {% for c in reclamation %} >
+        <td> {{ c.id }} </td>
+        <td> {{ c.description }}</td>
+        <td> {{ c.reponse }} </td>
+        <td> {{ c.status }} </td>
+        <td> {{ c.Region }} </td>
+        <td><a href="{{ path('update',{'id':c.id}) }}">update</a> <td/>
+        <td><a href="{{ path('d',{'id':c.id}) }}">delete</a> <td/>
+        <td><a href="{{ path('reponse',{'id':c.id}) }}">Repondre</a> <td/>
+
+    <tr {% endfor %} >
+
+</table>
+{% endblock %}
