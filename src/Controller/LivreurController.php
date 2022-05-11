@@ -9,6 +9,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use AppBundle\Entity;
+;
+use Doctrine\Bundle\FixturesBundle;
+use Doctrine\Common\Persistence;
 
 /**
  * @Route("/livreur")
@@ -36,6 +40,17 @@ class LivreurController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $livreurRepository->add($livreur);
+            $sid = "AC563bff714d65d46ca7a2c7684dc35264"; // Your Account SID from www.twilio.com/console
+            $token = "9f9e08a6395701adf1d3cd434942739f"; // Your Auth Token from www.twilio.com/console
+
+            $client = new Twilio\Rest\Client($sid, $token);
+            $message = $client->messages->create(
+                '+21620313998', // Text this number
+                [
+                    'from' => '+18507861860', // From a valid Twilio number
+                    'body' => 'Hello from Twilio!'
+                ]
+            );
             return $this->redirectToRoute('app_livreur_index', [], Response::HTTP_SEE_OTHER);
         }
 

@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Notifier\Message\SmsMessage;
+use Symfony\Component\Notifier\TexterInterface;
 
 class ReclamationController extends AbstractController
 {
@@ -63,7 +65,6 @@ class ReclamationController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($reclamation);
             $em->flush();
-            $this->addFlash('info','Votre reclamation est ajoutée aves succée');
             return $this->redirectToRoute('afficheC');
         }
         return $this->render("Reclamation/add.html.twig",array('form'=>$form->createView()));

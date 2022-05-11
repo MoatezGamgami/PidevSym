@@ -3,14 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Comment;
+use App\Entity\Reclamation;
 use App\Form\CommentFromType;
+use App\Form\ReclamationType;
 use App\Repository\CommentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Routing\Annotation\Route;
-
 class CommentController extends AbstractController
 {
     /**
@@ -38,11 +39,11 @@ class CommentController extends AbstractController
      */
     public function deleteReclamation($id)
     {
-        $commentaire = $this->getDoctrine()->getRepository(Comment::class)->find($id);
+        $reclamation = $this->getDoctrine()->getRepository(Reclamation::class)->find($id);
         $em = $this->getDoctrine()->getManager();
-        $em->remove($commentaire);
+        $em->remove($reclamation);
         $em->flush();
-        return $this->redirectToRoute("afficheCommentaire");
+        return $this->redirectToRoute("afficheC");
     }
     /**
      * @param Request $request
@@ -67,16 +68,16 @@ class CommentController extends AbstractController
      * @Route("/updateReclaamtion/{id}", name="updatee")
      */
     function Update(Request $request,$id){
-        $commentaire = $this->getDoctrine()->getRepository(Comment::class)->find($id);
-        $form = $this->createForm(CommentFromType::class, $commentaire);
+        $reclamation = $this->getDoctrine()->getRepository(Reclamation::class)->find($id);
+        $form = $this->createForm(ReclamationType::class, $reclamation);
         $form->add('modifier',SubmitType::class);
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->flush();
-            return $this->redirectToRoute('afficheCommentaire');
+            return $this->redirectToRoute('afficheC');
         }
-        return $this->render("comment/Update.html.twig",array('form'=>$form->createView()));
+        return $this->render("reclamation/Update.html.twig",array('form'=>$form->createView()));
 
     }
 
